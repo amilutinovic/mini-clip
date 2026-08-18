@@ -1,0 +1,8 @@
+kaggle.json
+.kaggle/
+ 
+flickr8k/
+*.zip
+
+.ipynb_checkpoints/
+ 
