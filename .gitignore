@@ -6,3 +6,6 @@ flickr8k/
 
 .ipynb_checkpoints/
  
+ data_setup/
+ 
+ .DS_Store
