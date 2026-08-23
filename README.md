@@ -13,21 +13,13 @@ Model then trains, using these embeddings, using a method called `contrastive le
 We use the [Flickr8k dataset](https://github.com/jbrownlee/Datasets/releases/tag/Flickr8k), which contains 8,000 images, each paired with five English captions.
 
 
-#### 1. Download the text annotations with:
+#### 1. Download the dataset from Kaggle:
 
-```bash
-mkdir -p data
-cd data
+1. Open the [Flickr8k dataset on Kaggle](https://www.kaggle.com/datasets/adityajn105/flickr8k).
+2. Log in to your Kaggle account.
+3. Click **Download**.
+4. Extract the downloaded ZIP file into the `data/` directory.
 
-wget https://github.com/jbrownlee/Datasets/releases/download/Flickr8k/Flickr8k_Dataset.zip
-wget https://github.com/jbrownlee/Datasets/releases/download/Flickr8k/Flickr8k_text.zip
-
-unzip Flickr8k_Dataset.zip
-unzip Flickr8k_text.zip
-
-rm Flickr8k_Dataset.zip Flickr8k_text.zip
-rm Flickr8k_Dataset.zip
-```
 
 ## Authors:
 - Đurđa Milošević
