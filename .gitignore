@@ -1,12 +1,12 @@
 kaggle.json
 .kaggle/
+__pycache__
  
-flickr8k/
-*.zip
+flickr8k/ *.zip
 
 .ipynb_checkpoints/
  
- data_setup/
- data/
+data_setup/
+data/
  
- .DS_Store
+.DS_Store
