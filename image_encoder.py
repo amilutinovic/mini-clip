@@ -10,6 +10,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+def build_projection_head(in_dim, emb_dim=256):
+   return nn.Sequential(
+       nn.Linear(in_dim, 512),
+       nn.GELU(),
+       nn.Linear(512, emb_dim),
+   )
+
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1):
         super(BasicBlock, self).__init__()
@@ -83,13 +90,13 @@ class ResNet18EncoderPretrained(nn.Module):
         self.backbone = nn.Sequential(*list(resnet.children())[:-1])  #izuzimamo poslednji sloj (klasifikaciju)
         for param in self.backbone.parameters():
             param.requires_grad = False #fiksirani svi parametri (ne menjaju se tokom treninga)
-        self.fc = nn.Linear(512, emb_dim)
+        self.projection = build_projection_head(512, emb_dim)
 
     def forward(self, x):
         with torch.no_grad():
             features = self.backbone(x)
         features = features.flatten(1)
-        out = self.fc(features)
+        out = self.projection(features)
         out = F.normalize(out, dim=1)
         return out
         
@@ -102,11 +109,13 @@ class ResNet18EncoderFineTuned(nn.Module):
             param.requires_grad = False #fiksirani svi parametri (ne menjaju se tokom treninga)
         for param in resnet.layer4.parameters():
             param.requires_grad = True #odmrznem l4
-        self.fc = nn.Linear(512, emb_dim)
+        self.projection = build_projection_head(512, emb_dim)
 
     def forward(self, x):
         features = self.backbone(x)
         features = features.flatten(1)
-        out = self.fc(features)
+        out = self.projection(features)
         out = F.normalize(out, dim=1)
         return out
+    
+
