@@ -8,6 +8,21 @@ It consists of:
 
 Model then trains, using these embeddings, using a method called `contrastive learning`.
 
+## Encoders
+ 
+Several variants of both encoders were implemented and compared, all mapping their input into the same 256-dimensional embedding space.
+ 
+### Image encoders
+ 
+- **ResNet18 (from scratch)** — a ResNet18 architecture implemented from scratch and trained end-to-end on Flickr8k, without any pretrained weights.
+- **ResNet18 (pretrained, frozen)** — a ResNet18 backbone pretrained on ImageNet, with all backbone weights frozen; only a small projection head on top is trained.
+- **ResNet18 (fine-tuned)** — same as above, but the last residual block (`layer4`) of the pretrained backbone is unfrozen and fine-tuned together with the projection head.
+### Text encoders
+ 
+- **Mini Transformer (from scratch)** — a small Transformer encoder built from scratch (token embeddings + sinusoidal positional encoding + multi-head self-attention layers), trained end-to-end on the project's own word-level vocabulary built from the training captions.
+- **DistilBERT (pretrained, frozen)** — a pretrained `distilbert-base-uncased` model (via Hugging Face `transformers`) with a frozen backbone, using its own tokenizer instead of the custom vocabulary; only a projection head on top is trained.
+
+
 ## Dataset
 
 We use the [Flickr8k dataset](https://github.com/jbrownlee/Datasets/releases/tag/Flickr8k), which contains 8,000 images, each paired with five English captions.
