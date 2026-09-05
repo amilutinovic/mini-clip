@@ -1,3 +1,5 @@
+import re
+
 def normalize_text(text):
     text = text.lower().strip()
     return text
