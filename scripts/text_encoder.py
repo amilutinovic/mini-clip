@@ -116,7 +116,7 @@ class MiniTextTransformer(nn.Module):
         return x
         
 from transformers import AutoModel
-from image_encoder import build_projection_head  # isti pattern kao za image encoder
+from .image_encoder import build_projection_head  # isti pattern kao za image encoder
 
 class TextEncoderPretrained(nn.Module):
     def __init__(self, model_name="distilbert-base-uncased", emb_dim=256, freeze_backbone=True):
@@ -186,24 +186,3 @@ class ContrastiveFlickrDatasetBERT(Dataset):
         }
         
         
-
-class TextEncoderRNN(nn.Module):
-    def __init__(self, vocab_size, max_length, embedding_dim=256, hidden_dim=256, num_layers=1, output_dim=256, dropout=0.1):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=PAD_ID)
-        self.rnn = nn.GRU( embedding_dim,
-                           hidden_dim, num_layers=num_layers,
-                           batch_first=True,
-                           bidirectional=True,
-                           dropout=dropout if num_layers > 1 else 0.0)
-        self.projection = nn.Linear(hidden_dim * 2, output_dim)
-
-    def forward(self, input_ids, attention_mask):
-        x = self.embedding(input_ids)
-        lengths = attention_mask.sum(dim=1).cpu()
-        packed = nn.utils.rnn.pack_padded_sequence(
-            x, lengths, batch_first=True, enforce_sorted=False)
-        _, h_n = self.rnn(packed)
-        h = torch.cat([h_n[-2], h_n[-1]], dim=-1)
-        out = self.projection(h)
-        return F.normalize(out, dim=-1)

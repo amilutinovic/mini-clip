@@ -1,6 +1,6 @@
 kaggle.json
 .kaggle/
-__pycache__
+**/__pycache__/
  
 flickr8k/ *.zip
 
