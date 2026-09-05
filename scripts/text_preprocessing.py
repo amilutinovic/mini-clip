@@ -1,4 +1,8 @@
 import re
+PAD_TOKEN = "<PAD>"
+UNK_TOKEN = "<UNK>"
+SOS_TOKEN = "<SOS>"
+EOS_TOKEN = "<EOS>"
 
 def normalize_text(text):
     text = text.lower().strip()
